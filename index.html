@@ -2,22 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Kaushal · Curious Boxer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+
+    <!-- SEO Meta -->
+    <title>Curious Boxer & Software Engineer</title>
+    <meta name="description" content="Portfolio of Aditya Kaushal – boxer, self‑taught coder, OS dreamer. Building with discipline and curiosity.">
+    <meta name="keywords" content="Aditya Kaushal, curious boxer, software engineer, Arch Linux, OS development, Jal Darpan, Monday LLM">
+    <meta name="author" content="Aditya Kaushal">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Aditya Kaushal · Curious Boxer">
+    <meta property="og:description" content="From the ring to the terminal – a portfolio built with discipline and semicolons.">
+    <meta property="og:image" content="https://github.com/AdityaKcodes.png"> <!-- Replace with your actual profile pic URL -->
+    <meta property="og:url" content="https://adityakcodes.github.io">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aditya Kaushal · Curious Boxer">
+    <meta name="twitter:description" content="Boxer & self‑taught software engineer. I build things that pack a punch.">
+    <meta name="twitter:image" content="https://github.com/AdityaKcodes.png">
+
+    <!-- Fonts & Icons (same) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
+        /* same variables, with minor responsive adjustments */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.2s, border-color 0.2s;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --text: #f0f0f0;
+            --accent: #b32424;
+            --accent-hover: #ff4d4d;
+            --card-bg: rgba(20,20,20,0.9);
+            --card-bg-solid: #1a1a1a;
+            --badge-bg: #2a2a2a;
+            --border-light: #333;
+            --shadow: rgba(0,0,0,0.7);
+            --rope-alpha: 0.05;
+        }
+
+        body.light-mode {
+            --bg: #f5f2e9;
+            --text: #1e1e1e;
+            --accent: #b32424;
+            --accent-hover: #8b1a1a;
+            --card-bg: rgba(255,255,255,0.9);
+            --card-bg-solid: #ffffff;
+            --badge-bg: #e0e0e0;
+            --border-light: #ccc;
+            --shadow: rgba(0,0,0,0.1);
+            --rope-alpha: 0.1;
         }
 
         body {
-            background: #0a0a0a;
-            color: #f0f0f0;
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
             line-height: 1.6;
             position: relative;
@@ -33,8 +82,8 @@
             width: 100%;
             height: 100%;
             background: repeating-linear-gradient(90deg, 
-                rgba(180, 40, 40, 0.05) 0px, 
-                rgba(180, 40, 40, 0.05) 4px,
+                rgba(180, 40, 40, var(--rope-alpha)) 0px, 
+                rgba(180, 40, 40, var(--rope-alpha)) 4px,
                 transparent 4px,
                 transparent 8px);
             pointer-events: none;
@@ -45,7 +94,7 @@
             position: fixed;
             width: 60px;
             height: 60px;
-            border: 3px solid #b32424;
+            border: 3px solid var(--accent);
             opacity: 0.3;
             z-index: -1;
         }
@@ -60,16 +109,36 @@
             padding: 2rem 1.5rem;
         }
 
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 0 15px var(--accent);
+            transition: transform 0.2s;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
         .hero {
             text-align: center;
             margin-bottom: 4rem;
         }
         .hero h1 {
             font-family: 'Bebas Neue', cursive;
-            font-size: 5rem;
+            font-size: clamp(3rem, 10vw, 5rem);
             letter-spacing: 4px;
-            color: #b32424;
-            text-shadow: 4px 4px 0 #1e1e1e, 8px 8px 0 rgba(180,36,36,0.3);
+            color: var(--accent);
+            text-shadow: 4px 4px 0 var(--bg), 8px 8px 0 rgba(180,36,36,0.3);
             line-height: 1.1;
         }
         .hero .glove {
@@ -86,28 +155,29 @@
             100% { transform: rotate(0deg) scale(1); }
         }
         .hero .subtitle {
-            font-size: 1.4rem;
-            background: #1e1e1e;
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            background: var(--card-bg-solid);
             display: inline-block;
             padding: 0.5rem 2rem;
-            border-left: 5px solid #b32424;
-            border-right: 5px solid #b32424;
+            border-left: 5px solid var(--accent);
+            border-right: 5px solid var(--accent);
             margin-top: 0.5rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
+            color: var(--text);
         }
 
         .curiosity-band {
-            background: #b32424;
+            background: var(--accent);
             color: #0a0a0a;
             padding: 0.75rem;
             font-weight: 800;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 4vw, 1.2rem);
             border-radius: 40px;
             margin: 2rem 0;
-            box-shadow: 0 0 20px rgba(180,36,36,0.5);
+            box-shadow: 0 0 20px var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -127,37 +197,39 @@
             margin: 3rem 0;
         }
         .corner {
-            background: rgba(20,20,20,0.9);
-            border: 2px solid #b32424;
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
             padding: 2rem 1.5rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            transition: transform 0.2s;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: transform 0.2s, border-color 0.2s;
+            backdrop-filter: blur(2px);
         }
         .corner:hover {
             transform: translateY(-5px);
-            border-color: #ff4d4d;
+            border-color: var(--accent-hover);
         }
         .corner h2 {
             font-family: 'Bebas Neue', cursive;
-            font-size: 2.5rem;
-            border-bottom: 3px solid #b32424;
+            font-size: clamp(2rem, 6vw, 2.5rem);
+            border-bottom: 3px solid var(--accent);
             display: inline-block;
             margin-bottom: 1rem;
             letter-spacing: 2px;
         }
         .corner i {
-            color: #b32424;
+            color: var(--accent);
             margin-right: 10px;
         }
         .stat-badge {
-            background: #2a2a2a;
+            background: var(--badge-bg);
             padding: 0.5rem 1rem;
             border-radius: 30px;
             display: inline-block;
             margin: 0.5rem 0.5rem 0 0;
             font-size: 0.9rem;
             font-weight: 600;
+            color: var(--text);
         }
         .stat-badge i {
             font-size: 0.9rem;
@@ -171,13 +243,14 @@
             margin: 3rem 0;
         }
         .fight-card {
-            background: #1a1a1a;
-            border: 2px solid #b32424;
+            background: var(--card-bg-solid);
+            border: 2px solid var(--accent);
             border-radius: 20px;
             padding: 1.5rem;
             position: relative;
             overflow: hidden;
             transition: 0.3s;
+            color: var(--text);
         }
         .fight-card::before {
             content: '';
@@ -186,10 +259,10 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #b32424, #f0f0f0, #b32424);
+            background: linear-gradient(90deg, var(--accent), var(--text), var(--accent));
         }
         .fight-card:hover {
-            box-shadow: 0 0 25px #b32424;
+            box-shadow: 0 0 25px var(--accent);
         }
         .fight-card .matchup {
             display: flex;
@@ -200,11 +273,11 @@
             font-family: 'Bebas Neue', cursive;
         }
         .fight-card .vs {
-            color: #b32424;
+            color: var(--accent);
             font-size: 2rem;
         }
         .fight-card .ko-factor {
-            background: #b32424;
+            background: var(--accent);
             color: #0a0a0a;
             padding: 0.3rem 1rem;
             border-radius: 30px;
@@ -219,33 +292,105 @@
             margin: 1rem 0;
         }
         .fight-card .tech-tag {
-            background: #2a2a2a;
+            background: var(--badge-bg);
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
-            border: 1px solid #b32424;
+            border: 1px solid var(--accent);
+            color: var(--text);
         }
         .fight-card .project-desc {
             font-size: 0.95rem;
             opacity: 0.8;
         }
+        .demo-link {
+            display: inline-block;
+            margin-top: 0.8rem;
+            margin-right: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--accent);
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            transition: 0.2s;
+        }
+        .demo-link:hover {
+            background: var(--accent);
+            color: #0a0a0a;
+        }
+
+        .terminal-section {
+            margin: 4rem 0;
+        }
+        .terminal {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 1.5rem;
+            font-family: 'Fira Code', monospace;
+            color: #0f0;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+        }
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .terminal-header span {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+        .terminal-header span:nth-child(2) { background: #ffbd2e; }
+        .terminal-header span:nth-child(3) { background: #27c93f; }
+        .terminal-content {
+            white-space: pre-wrap;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            line-height: 1.6;
+            min-height: 200px;
+        }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background: #0f0;
+            vertical-align: middle;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .replay-terminal {
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
 
         .curiosity-corner {
-            background: #1a1a1a;
+            background: var(--card-bg-solid);
             border-radius: 60px 60px 20px 20px;
             padding: 2rem;
             text-align: center;
-            border: 3px solid #b32424;
+            border: 3px solid var(--accent);
             margin: 4rem 0;
-            position: relative;
         }
         .speed-bag {
             width: 120px;
             height: 160px;
-            background: #b32424;
+            background: var(--accent);
             border-radius: 50%;
             margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 0 #6d1a1a, 0 20px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 0 #6d1a1a, 0 20px 20px var(--shadow);
             cursor: pointer;
             transition: transform 0.1s ease;
             display: flex;
@@ -267,54 +412,53 @@
             100% { transform: rotate(0deg); }
         }
         .curiosity-fact {
-            background: #2a2a2a;
+            background: var(--badge-bg);
             padding: 1.5rem;
             border-radius: 30px;
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 4vw, 1.2rem);
             font-weight: 600;
-            border-left: 10px solid #b32424;
+            border-left: 10px solid var(--accent);
             min-height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            color: var(--text);
         }
         .blog-tease {
             margin-top: 1rem;
             font-size: 1rem;
-            background: #b32424;
+            background: var(--accent);
             color: #0a0a0a;
             padding: 0.5rem 1rem;
             border-radius: 40px;
             display: inline-block;
-        }
-        .blog-tease i {
-            margin-right: 6px;
         }
 
         .contact-ropes {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 3rem;
+            gap: 2rem;
             margin: 4rem 0 2rem;
             padding: 2rem 0;
-            border-top: 3px solid #b32424;
-            border-bottom: 3px solid #b32424;
+            border-top: 3px solid var(--accent);
+            border-bottom: 3px solid var(--accent);
             position: relative;
         }
         .contact-ropes a {
-            color: #f0f0f0;
-            font-size: 2rem;
+            color: var(--text);
+            font-size: clamp(1.5rem, 5vw, 2rem);
             transition: 0.2s;
             position: relative;
+            text-decoration: none;
         }
         .contact-ropes a:hover {
-            color: #b32424;
+            color: var(--accent);
             transform: scale(1.2);
         }
         .contact-ropes a span {
-            font-size: 1rem;
+            font-size: clamp(0.7rem, 3vw, 1rem);
             display: block;
             text-align: center;
             margin-top: 5px;
@@ -330,10 +474,20 @@
         @media (max-width: 700px) {
             .hero h1 { font-size: 3rem; }
             .split-corners { grid-template-columns: 1fr; }
+            .contact-ropes { gap: 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .subtitle { font-size: 0.9rem; padding: 0.5rem 1rem; }
+            .corner { padding: 1.5rem 1rem; }
+            .fight-card .matchup { font-size: 1.4rem; }
+            .fight-card .vs { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">🌓</button>
+
     <div class="corner-post tl"></div>
     <div class="corner-post tr"></div>
     <div class="corner-post bl"></div>
@@ -355,7 +509,7 @@
             <i class="fas fa-code"></i>
         </div>
 
-        <!-- Two corners: Boxing & Coding (personalized) -->
+        <!-- Two corners -->
         <div class="split-corners">
             <div class="corner">
                 <h2><i class="fas fa-laptop-code"></i> CODE CORNER</h2>
@@ -367,6 +521,7 @@
                     <span class="stat-badge"><i class="fas fa-terminal"></i> Arch Linux</span>
                     <span class="stat-badge"><i class="fas fa-microchip"></i> OS dreamer</span>
                 </div>
+                <p style="margin-top:1rem;">📜 <a href="https://www.linkedin.com/posts/aditya-kaushal-dev_oraclecloud-ai-datascience-activity-7403847097017356288-AtEi?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFC7O6wBYno0Gf6LmMJYjaeCW0w-KnVeMW8" target="_blank" rel="noopener" style="color:var(--accent);">View certifications on LinkedIn →</a></p>
             </div>
             <div class="corner">
                 <h2><i class="fas fa-boxing-glove"></i> RING CORNER</h2>
@@ -377,11 +532,10 @@
                     <span class="stat-badge"><i class="fas fa-dumbbell"></i> Building the big guy</span>
                 </div>
             </div>
-            
         </div>
 
         <!-- Projects as fight cards -->
-        <h2 style="font-family: 'Bebas Neue'; font-size: 3rem; margin: 2rem 0 0.5rem; color: #b32424;">🏆 PROJECT FIGHT CARD 🏆</h2>
+        <h2 style="font-family: 'Bebas Neue'; font-size: clamp(2.2rem, 8vw, 3rem); margin: 2rem 0 0.5rem; color: var(--accent);">🏆 PROJECT FIGHT CARD 🏆</h2>
         <div class="projects-grid">
             <div class="fight-card">
                 <div class="matchup">
@@ -396,6 +550,7 @@
                     <span class="tech-tag">PyTorch</span>
                 </div>
                 <p class="project-desc">A personal LLM – built from curiosity, not yet on GitHub. It’s my playground for understanding attention, tokens, and why AI sometimes dreams of electric sheep.</p>
+                <a href="#" class="demo-link" target="_blank" rel="noopener">🔗 Live demo (soon)</a>
             </div>
             <div class="fight-card">
                 <div class="matchup">
@@ -409,7 +564,8 @@
                     <span class="tech-tag">D3.js</span>
                     <span class="tech-tag">Python</span>
                 </div>
-                <p class="project-desc">SIH project: a mirror for India's groundwater data. Visualizing the invisible – because what's below matters. <a href="https://github.com/AdityaKcodes/GWR-Eval" style="color: #b32424;" target="_blank">GitHub →</a></p>
+                <p class="project-desc">SIH project: a mirror for India's groundwater data. Visualizing the invisible – because what's below matters. <a href="https://github.com/AdityaKcodes/GWR-Eval" style="color: var(--accent);" target="_blank" rel="noopener">GitHub →</a></p>
+                <a href="https://youtu.be/rZlrp4TQ4MM?si=Vx5UAGkJ03gaucZC" class="demo-link" target="_blank" rel="noopener">🔗 Live demo (TBD)</a>
             </div>
             <div class="fight-card">
                 <div class="matchup">
@@ -424,7 +580,22 @@
                     <span class="tech-tag">Dreams</span>
                 </div>
                 <p class="project-desc">The big one. I want to build an operating system from scratch – old school, curious, and probably painful. But that's how you learn, right? I use Arch BTW...</p>
+                <a href="#" class="demo-link" target="_blank" rel="noopener">🔗 Repo (future)</a>
             </div>
+        </div>
+
+        <!-- Interactive Terminal -->
+        <div class="terminal-section">
+            <h2 style="font-family: 'Bebas Neue'; font-size: clamp(2rem, 7vw, 2.5rem); margin-bottom:1rem; color: var(--accent);"> <i class="fas fa-terminal"></i> terminal · about.me</h2>
+            <div class="terminal" id="terminal">
+                <div class="terminal-header">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="terminal-content" id="terminalContent">
+                    <span>>_ </span><span id="typewriter"></span><span class="cursor"></span>
+                </div>
+            </div>
+            <button class="replay-terminal" id="replayTerminal">↻ Replay</button>
         </div>
 
         <!-- Curiosity speed bag + blog teaser -->
@@ -442,10 +613,10 @@
 
         <!-- Contact ropes -->
         <div class="contact-ropes">
-    <a href="https://github.com/AdityaKcodes" target="_blank"><i class="fab fa-github"></i><span>AdityaKcodes</span></a>
-    <a href="#" target="_blank"><i class="fab fa-youtube"></i><span>@curious_boxer</span></a>
-    <a href="https://www.linkedin.com/in/aditya-kaushal-dev/" target="_blank"><i class="fab fa-linkedin"></i><span>aditya-kaushal-dev</span></a>
-    <a href="mailto:adityakaushal7k@gmail.com"><i class="fas fa-envelope"></i><span>adityakaushal7k@gmail</span></a>
+            <a href="https://github.com/AdityaKcodes" target="_blank" rel="noopener"><i class="fab fa-github"></i><span>AdityaKcodes</span></a>
+            <a href="#" target="_blank" rel="noopener"><i class="fab fa-youtube"></i><span>@curious_boxer</span></a>
+            <a href="https://www.linkedin.com/in/aditya-kaushal-dev/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i><span>aditya-kaushal-dev</span></a>
+            <a href="mailto:adityakaushal7k@gmail.com"><i class="fas fa-envelope"></i><span>adityakaushal7k@gmail</span></a>
         </div>
 
         <footer>
@@ -455,36 +626,88 @@
     </div>
 
     <script>
-        // Facts inspired by Aditya's journey
+        // ========== DARK/LIGHT MODE TOGGLE ==========
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+        });
+
+        // ========== TERMINAL TYPEWRITER ==========
+        const terminalLines = [
+            "> whoami",
+            "Aditya Kaushal (aka Curious Boxer)",
+            "> cat skills.txt",
+            "- Boxing: since Aug 2025, perfecting the cross",
+            "- Code: 3 years self-taught, JS/C/C++/R/Go/Java (aspiring)",
+            "- Dream: Build my own OS on Arch",
+            "> cat curiosity.log",
+            "- I debug with print statements and shadowboxing",
+            "- Favorite Ghibli: Howl's Moving Castle",
+            "- Certifications: linkedin.com/in/aditya-kaushal-dev",
+            ">_",
+        ];
+
+        const typewriterElement = document.getElementById('typewriter');
+        const replayBtn = document.getElementById('replayTerminal');
+        let lineIndex = 0;
+        let charIndex = 0;
+        let timeout;
+
+        function typeNextCharacter() {
+            if (lineIndex >= terminalLines.length) {
+                return;
+            }
+            const currentLine = terminalLines[lineIndex];
+            if (charIndex < currentLine.length) {
+                typewriterElement.innerHTML += currentLine.charAt(charIndex);
+                charIndex++;
+                timeout = setTimeout(typeNextCharacter, 30);
+            } else {
+                typewriterElement.innerHTML += '\n';
+                lineIndex++;
+                charIndex = 0;
+                if (lineIndex < terminalLines.length) {
+                    timeout = setTimeout(typeNextCharacter, 200);
+                }
+            }
+        }
+
+        function startTerminal() {
+            if (timeout) clearTimeout(timeout);
+            typewriterElement.innerHTML = '';
+            lineIndex = 0;
+            charIndex = 0;
+            typeNextCharacter();
+        }
+
+        window.addEventListener('load', startTerminal);
+        replayBtn.addEventListener('click', startTerminal);
+
+        // ========== SPEED BAG FACTS ==========
         const facts = [
             "I started boxing in August 2025 – still working on that cross.",
-            "I want to build an OS from scratch. Yes, I know it's insane.",
-            "My favorite Ghibli movie? Howl's Moving Castle – the code is the castle.",
+            "I want to build an OS from scratch just its fuels me. Yes, I know it's insane.",
             "I learned C because I wanted to talk to the hardware directly.",
             "I believe every bug is just a sparring partner.",
             "One day I'll write a kernel module that shadowboxes.",
             "I debug with print statements and shadowboxing between runs.",
             "I'm serious about my body – big guy in the making.",
-            "My next goal: contribute to the Linux kernel (then maybe make my own).",
-            "I have a playlist for coding: lo-fi and the sound of punching bags."
+            "My next goal: contribute to the Linux kernel (then maybe make my own)."
         ];
 
         const bag = document.getElementById('speedBag');
         const factDisplay = document.getElementById('factDisplay');
 
         bag.addEventListener('click', () => {
-            // punch animation
             bag.style.transform = 'scale(0.8) rotate(10deg)';
             setTimeout(() => {
                 bag.style.transform = '';
             }, 150);
 
             const randomIndex = Math.floor(Math.random() * facts.length);
-            // Keep the blog tease at bottom
             factDisplay.innerHTML = `<span>🥊 ${facts[randomIndex]} 🥊</span><div class="blog-tease"><i class="fas fa-pencil-alt"></i> Backend blog coming soon – more curiosity</div>`;
         });
 
-        // double punch for extra fun
         bag.addEventListener('dblclick', () => {
             factDisplay.innerHTML = `<span>🥊🥊 COMBO! ${facts[Math.floor(Math.random() * facts.length)]} 🥊🥊</span><div class="blog-tease"><i class="fas fa-pencil-alt"></i> Backend blog coming soon – more curiosity</div>`;
         });
