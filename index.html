@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Kaushal · Curious Boxer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ring ropes */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg, 
+                rgba(180, 40, 40, 0.05) 0px, 
+                rgba(180, 40, 40, 0.05) 4px,
+                transparent 4px,
+                transparent 8px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .corner-post {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #b32424;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        .corner-post.tl { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .corner-post.tr { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .corner-post.bl { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .corner-post.br { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 5rem;
+            letter-spacing: 4px;
+            color: #b32424;
+            text-shadow: 4px 4px 0 #1e1e1e, 8px 8px 0 rgba(180,36,36,0.3);
+            line-height: 1.1;
+        }
+        .hero .glove {
+            display: inline-block;
+            animation: glovePunch 2s infinite ease-in-out;
+            transform-origin: center;
+            margin-right: 10px;
+        }
+        @keyframes glovePunch {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(10deg) scale(1.1); }
+            50% { transform: rotate(-5deg) scale(1.05); }
+            75% { transform: rotate(5deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        .hero .subtitle {
+            font-size: 1.4rem;
+            background: #1e1e1e;
+            display: inline-block;
+            padding: 0.5rem 2rem;
+            border-left: 5px solid #b32424;
+            border-right: 5px solid #b32424;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .curiosity-band {
+            background: #b32424;
+            color: #0a0a0a;
+            padding: 0.75rem;
+            font-weight: 800;
+            text-align: center;
+            font-size: 1.2rem;
+            border-radius: 40px;
+            margin: 2rem 0;
+            box-shadow: 0 0 20px rgba(180,36,36,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .curiosity-band i {
+            font-size: 2rem;
+            color: #fff;
+            filter: drop-shadow(0 0 5px black);
+        }
+
+        .split-corners {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .corner {
+            background: rgba(20,20,20,0.9);
+            border: 2px solid #b32424;
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            transition: transform 0.2s;
+        }
+        .corner:hover {
+            transform: translateY(-5px);
+            border-color: #ff4d4d;
+        }
+        .corner h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            border-bottom: 3px solid #b32424;
+            display: inline-block;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        .corner i {
+            color: #b32424;
+            margin-right: 10px;
+        }
+        .stat-badge {
+            background: #2a2a2a;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin: 0.5rem 0.5rem 0 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .stat-badge i {
+            font-size: 0.9rem;
+            margin-right: 5px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .fight-card {
+            background: #1a1a1a;
+            border: 2px solid #b32424;
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .fight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #b32424, #f0f0f0, #b32424);
+        }
+        .fight-card:hover {
+            box-shadow: 0 0 25px #b32424;
+        }
+        .fight-card .matchup {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Bebas Neue', cursive;
+        }
+        .fight-card .vs {
+            color: #b32424;
+            font-size: 2rem;
+        }
+        .fight-card .ko-factor {
+            background: #b32424;
+            color: #0a0a0a;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-weight: 800;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+        .fight-card .technologies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 1rem 0;
+        }
+        .fight-card .tech-tag {
+            background: #2a2a2a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid #b32424;
+        }
+        .fight-card .project-desc {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .curiosity-corner {
+            background: #1a1a1a;
+            border-radius: 60px 60px 20px 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 3px solid #b32424;
+            margin: 4rem 0;
+            position: relative;
+        }
+        .speed-bag {
+            width: 120px;
+            height: 160px;
+            background: #b32424;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 0 #6d1a1a, 0 20px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            animation: dangle 3s infinite ease-in-out;
+            transform-origin: top center;
+        }
+        .speed-bag:active {
+            transform: scale(0.95) rotate(5deg);
+        }
+        @keyframes dangle {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .curiosity-fact {
+            background: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-left: 10px solid #b32424;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .blog-tease {
+            margin-top: 1rem;
+            font-size: 1rem;
+            background: #b32424;
+            color: #0a0a0a;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+        .blog-tease i {
+            margin-right: 6px;
+        }
+
+        .contact-ropes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin: 4rem 0 2rem;
+            padding: 2rem 0;
+            border-top: 3px solid #b32424;
+            border-bottom: 3px solid #b32424;
+            position: relative;
+        }
+        .contact-ropes a {
+            color: #f0f0f0;
+            font-size: 2rem;
+            transition: 0.2s;
+            position: relative;
+        }
+        .contact-ropes a:hover {
+            color: #b32424;
+            transform: scale(1.2);
+        }
+        .contact-ropes a span {
+            font-size: 1rem;
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 3rem; }
+            .split-corners { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="corner-post tl"></div>
+    <div class="corner-post tr"></div>
+    <div class="corner-post bl"></div>
+    <div class="corner-post br"></div>
+
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>
+                <span class="glove">🥊</span> ADITYA KAUSHAL <span class="glove">🥊</span>
+            </h1>
+            <div class="subtitle">aka THE CURIOUS BOXER · Wanna Be software engineer</div>
+        </div>
+
+        <!-- Curiosity band -->
+        <div class="curiosity-band">
+            <i class="fas fa-question-circle"></i>
+            <span>I'm perfecting my cross – in the ring and in code</span>
+            <i class="fas fa-code"></i>
+        </div>
+
+        <!-- Two corners: Boxing & Coding (personalized) -->
+        <div class="split-corners">
+            <div class="corner">
+                <h2><i class="fas fa-laptop-code"></i> CODE CORNER</h2>
+                <p>Years of self‑taught fueling curiosity, and some named certificates. I speak JS, HTML, CSS, C, C++, R, and more – but my heart wants Go and Java. 
+                    Old‑school soul: I dream of building my own OS on Arch. New tech is cool, but I like to understand what's under the hood.</p>
+                <div>
+                    <span class="stat-badge"><i class="fab fa-golang"></i> Go (goal)</span>
+                    <span class="stat-badge"><i class="fab fa-java"></i> Java (goal)</span>
+                    <span class="stat-badge"><i class="fas fa-terminal"></i> Arch Linux</span>
+                    <span class="stat-badge"><i class="fas fa-microchip"></i> OS dreamer</span>
+                </div>
+            </div>
+            <div class="corner">
+                <h2><i class="fas fa-boxing-glove"></i> RING CORNER</h2>
+                <p>Joined the academy in August 2025 – fresh, hungry, and learning to bounce back. Boxing taught me discipline: every missed punch is a lesson, every knockdown a chance to get up. My signature move? The cross – still problematic, still working on the footwork and hip twist. But that's the grind.</p>
+                <div>
+                    <span class="stat-badge"><i class="fas fa-clock"></i> Started Aug 2025</span>
+                    <span class="stat-badge"><i class="fas fa-heart"></i> No quitting</span>
+                    <span class="stat-badge"><i class="fas fa-dumbbell"></i> Building the big guy</span>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Projects as fight cards -->
+        <h2 style="font-family: 'Bebas Neue'; font-size: 3rem; margin: 2rem 0 0.5rem; color: #b32424;">🏆 PROJECT FIGHT CARD 🏆</h2>
+        <div class="projects-grid">
+            <div class="fight-card">
+                <div class="matchup">
+                    <span>Project</span>
+                    <span class="vs">VS</span>
+                    <span>Monday</span>
+                </div>
+                <div class="ko-factor">KO FACTOR: 10/10</div>
+                <div class="technologies">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Transformers</span>
+                    <span class="tech-tag">PyTorch</span>
+                </div>
+                <p class="project-desc">A personal LLM – built from curiosity, not yet on GitHub. It’s my playground for understanding attention, tokens, and why AI sometimes dreams of electric sheep.</p>
+            </div>
+            <div class="fight-card">
+                <div class="matchup">
+                    <span>JAL DARPAN</span>
+                    <span class="vs">VS</span>
+                    <span>GROUNDWATER</span>
+                </div>
+                <div class="ko-factor">KO FACTOR: 8/10</div>
+                <div class="technologies">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">D3.js</span>
+                    <span class="tech-tag">Python</span>
+                </div>
+                <p class="project-desc">SIH project: a mirror for India's groundwater data. Visualizing the invisible – because what's below matters. <a href="https://github.com/AdityaKcodes/GWR-Eval" style="color: #b32424;" target="_blank">GitHub →</a></p>
+            </div>
+            <div class="fight-card">
+                <div class="matchup">
+                    <span>Dremer OS</span>
+                    <span class="vs">VS</span>
+                    <span>ARCH</span>
+                </div>
+                <div class="ko-factor">KO FACTOR: ?/10</div>
+                <div class="technologies">
+                    <span class="tech-tag">C</span>
+                    <span class="tech-tag">Assembly</span>
+                    <span class="tech-tag">Dreams</span>
+                </div>
+                <p class="project-desc">The big one. I want to build an operating system from scratch – old school, curious, and probably painful. But that's how you learn, right? I use Arch BTW...</p>
+            </div>
+        </div>
+
+        <!-- Curiosity speed bag + blog teaser -->
+        <div class="curiosity-corner">
+            <div class="speed-bag" id="speedBag">
+                <i class="fas fa-question" style="color: #0a0a0a;"></i>
+            </div>
+            <div class="curiosity-fact" id="factDisplay">
+                <span>🥊 Punch the bag for a random fact 🥊</span>
+                <div class="blog-tease">
+                    <i class="fas fa-pencil-alt"></i> Backend blog coming soon – more curiosity
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact ropes -->
+        <div class="contact-ropes">
+    <a href="https://github.com/AdityaKcodes" target="_blank"><i class="fab fa-github"></i><span>AdityaKcodes</span></a>
+    <a href="#" target="_blank"><i class="fab fa-youtube"></i><span>@curious_boxer</span></a>
+    <a href="https://www.linkedin.com/in/aditya-kaushal-dev/" target="_blank"><i class="fab fa-linkedin"></i><span>aditya-kaushal-dev</span></a>
+    <a href="mailto:adityakaushal7k@gmail.com"><i class="fas fa-envelope"></i><span>adityakaushal7k@gmail</span></a>
+        </div>
+
+        <footer>
+            <p>“Float like a butterfly, code like a bee.” 🥊🐝</p>
+            <p style="font-size: 0.8rem; margin-top: 1rem;">© 2025 Aditya Kaushal – built with discipline, crosses, and semicolons.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Facts inspired by Aditya's journey
+        const facts = [
+            "I started boxing in August 2025 – still working on that cross.",
+            "I want to build an OS from scratch. Yes, I know it's insane.",
+            "My favorite Ghibli movie? Howl's Moving Castle – the code is the castle.",
+            "I learned C because I wanted to talk to the hardware directly.",
+            "I believe every bug is just a sparring partner.",
+            "One day I'll write a kernel module that shadowboxes.",
+            "I debug with print statements and shadowboxing between runs.",
+            "I'm serious about my body – big guy in the making.",
+            "My next goal: contribute to the Linux kernel (then maybe make my own).",
+            "I have a playlist for coding: lo-fi and the sound of punching bags."
+        ];
+
+        const bag = document.getElementById('speedBag');
+        const factDisplay = document.getElementById('factDisplay');
+
+        bag.addEventListener('click', () => {
+            // punch animation
+            bag.style.transform = 'scale(0.8) rotate(10deg)';
+            setTimeout(() => {
+                bag.style.transform = '';
+            }, 150);
+
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            // Keep the blog tease at bottom
+            factDisplay.innerHTML = `<span>🥊 ${facts[randomIndex]} 🥊</span><div class="blog-tease"><i class="fas fa-pencil-alt"></i> Backend blog coming soon – more curiosity</div>`;
+        });
+
+        // double punch for extra fun
+        bag.addEventListener('dblclick', () => {
+            factDisplay.innerHTML = `<span>🥊🥊 COMBO! ${facts[Math.floor(Math.random() * facts.length)]} 🥊🥊</span><div class="blog-tease"><i class="fas fa-pencil-alt"></i> Backend blog coming soon – more curiosity</div>`;
+        });
+    </script>
+</body>
+</html>
