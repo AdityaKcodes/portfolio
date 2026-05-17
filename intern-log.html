@@ -5,8 +5,8 @@
   <style>
     
     body { 
-      /* background: #1a1a1a; 
-      color: #fff;  */
+      background: #1a1a1a; 
+      color: #fff;
       font-family: monospace;
       background: var(--bg);
             color: var(--text);
@@ -27,25 +27,40 @@
   <p>Fullstack Developer | May 2026</p>
   
   <div class="log-entry">
-    <h3>Round 1 - May 12, 2026</h3>
-    <p><strong>Tasks:</strong> Environment setup, codebase exploration</p>
-    <p><strong>Learnings:</strong> RAG architecture, ElasticSearch basics</p>
-    <p><strong>Challenges:</strong> Understanding chunking workflow</p>
-    <p><strong>Status:</strong> ✅ Complete</p>
+    <h3>Round 1 2026</h3>
+    <p><strong>Tasks:</strong>Codebase exploration</p>
+    <p><strong>Learnings:</strong> RAG architecture, ElasticSearch</p>
+    <p><strong>Challenges:</strong> Understanding chunking workflow and ways of prompt to get desired results.</p>
+    <p><strong>Status:</strong> ✅ Ongoing</p>
   </div>
   
   <div class="log-entry">
-    <h3>Round 2 - May 13, 2026</h3>
-    <p><strong>Tasks:</strong> Fixed document chunking, eliminated null values</p>
-    <p><strong>Learnings:</strong> PDF parsing, validation pipelines</p>
-    <p><strong>Challenges:</strong> Edge cases in chunking</p>
-    <p><strong>Status:</strong> ✅ Complete</p>
+    <h3>May 12th, 2026</h3>
+    <p><strong>Task:</strong>Got Assigned with DocTracer, yeah its a major tool to pile up solved case files together to ease up Cases with solves case findings</p>
+    <p><strong>Challenges:</strong>First Day, setting the system with limitations as its not personal, Installing locally needed packages for actual project was first step.</p>
+    <p><strong>Learning:</strong>Done with installs, especially Ollama model, Elasticsearch, Mongodb and further npm packages.</p>
+    
+  </div>
+  <div class="log-entry">
+    <h3>May 13th, 2026</h3>
+    <p><strong>Challenges:</strong>Install were easy and good, but main challenge come out to be system level fixes as with limitations for Elasticsearch and especially a AI model need fixes</p>
+    <p><strong>Learning:</strong>The pdf and excel data management, on uploads these files get parsed and then elasticsearch indexed to save on local mongoose Database.</p>
   </div>
   
   <!-- Add daily as you go -->
+   <div class="log-entry">
+    <h3>May 14th, 2026</h3>
+    <p><strong>Challenges:</strong>For now we done with fixing system error like changing elasticsearch authentication needs, and now what all stoping is model speed and timeouts</p>
+    <p><strong>Learning:</strong>Done changing models,and we know dataflow: Search query -> Regular Expression -> here out terms get elasticsearch -> formated  context to further prompt our Model -> a response from model .</p>
+  </div>
+   <div class="log-entry">
+    <h3>May 15th, 2026</h3>
+    <p><strong>Challenges:</strong>The regular expression to extract terms from search query was too fixed or static to certain types ,and also response timeout got two reasons, system limitations and proper prompt to model or say a good and neat instruction of "what to do" to model</p>
+    <p><strong>Learning:</strong>Implemented same model to extract searchable terms from search query, pass to elasticsearch to give contains with index, also tried with prompt part of response but ideally model was just returning scrumbled head of actual containing content part, we need it to return proper response like Pageno and document's name </p>
+  </div>
   
   <button onclick="downloadReport()">📥 Download Full Report</button>
   
-  <a href="inport.html">← Back to Portfolio</a>
+  <a href="indext.html">← Back to Portfolio</a>
 </body>
 </html>
