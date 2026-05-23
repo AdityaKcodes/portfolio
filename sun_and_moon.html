@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunar Flares</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+
+#btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(60, 60, 60, 0.22);
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.55s ease, background 0.55s ease, color 0.55s ease,
+              box-shadow 0.55s ease, transform 0.18s ease;
+  color: #1a1a1a;
+  outline: none;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.09);
+  user-select: none;
+}
+#btn:hover { transform: scale(1.09); }
+#btn:active { transform: scale(0.94); }
+#btn.dark {
+  border-color: rgba(255, 200, 40, 0.28);
+  background: rgba(8, 6, 0, 0.52);
+  color: #FFD040;
+  box-shadow: 0 2px 20px rgba(255, 180, 20, 0.18);
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<button id="btn" aria-label="Switch to dark mode" title="Toggle theme">☽</button>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+const btn    = document.getElementById('btn');
+
+let W, H, cx, cy, orbR;
+let isDark = false;
+
+/* ─── resize ─────────────────────────────────────────────────────── */
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  cx   = W / 2;
+  cy   = H / 2;
+  orbR = Math.min(W, H) * 0.125;
+}
+resize();
+window.addEventListener('resize', resize);
+
+/* ─── tendril factory ─────────────────────────────────────────────── */
+function mkTendril(isMain) {
+  return {
+    angle   : Math.random() * Math.PI * 2,
+    lenFrac : isMain ? 0.30 + Math.random() * 0.28 : 0.18 + Math.random() * 0.30,
+    thick   : isMain ? 28  + Math.random() * 52  : 4  + Math.random() * 18,
+    alpha   : isMain ? 0.36 + Math.random() * 0.46 : 0.10 + Math.random() * 0.28,
+    amp1    : isMain ? 38  + Math.random() * 68  : 14 + Math.random() * 44,
+    amp2    : isMain ? 20  + Math.random() * 38  :  8 + Math.random() * 24,
+    f1      : 0.32 + Math.random() * 0.72,
+    f2      : 0.52 + Math.random() * 1.10,
+    ph      : Math.random() * Math.PI * 2,
+    spd     : isMain ? 0.00038 + Math.random() * 0.00055
+                     : 0.00055 + Math.random() * 0.00090,
+  };
+}
+
+const tendrils = [
+  ...Array.from({ length: 10 }, () => mkTendril(true)),
+  ...Array.from({ length: 20 }, () => mkTendril(false)),
+];
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+/* traveling-wave offset at fractional position f along tendril */
+function waveAt(f, ts, inward, tr) {
+  const dir = inward ? -1 : 1;
+  const tw  = ts * tr.spd * 100;
+  return (
+    Math.sin(tr.f1 * (f * 5 + dir * tw)         + tr.ph)       * tr.amp1 +
+    Math.sin(tr.f2 * (f * 7 + dir * tw * 1.35)  + tr.ph + 2.1) * tr.amp2 * 0.44
+  );
+}
+
+/* ─── draw one tendril ───────────────────────────────────────────── */
+function drawTendril(tr, ts, inward) {
+  const maxLen = Math.min(W, H) * tr.lenFrac;
+  const dx = Math.cos(tr.angle), dy = Math.sin(tr.angle);
+  const px = -Math.sin(tr.angle), py = Math.cos(tr.angle);
+
+  const nearX = cx + dx * (orbR + 1), nearY = cy + dy * (orbR + 1);
+  const farX  = cx + dx * maxLen,     farY  = cy + dy * maxLen;
+
+  const sX = inward ? farX  : nearX,  sY = inward ? farY  : nearY;
+  const eX = inward ? nearX : farX,   eY = inward ? nearY : farY;
+
+  const w1 = waveAt(0.33, ts, inward, tr);
+  const w2 = waveAt(0.66, ts, inward, tr);
+  const cp1x = lerp(sX, eX, 0.33) + px * w1,  cp1y = lerp(sY, eY, 0.33) + py * w1;
+  const cp2x = lerp(sX, eX, 0.66) + px * w2,  cp2y = lerp(sY, eY, 0.66) + py * w2;
+
+  /* main stroke gradient */
+  const g = ctx.createLinearGradient(sX, sY, eX, eY);
+  const a = tr.alpha;
+
+  if (isDark) {
+    if (inward) {
+      g.addColorStop(0,    `rgba(255,188,18,${a})`);
+      g.addColorStop(0.86, `rgba(255,188,18,${a * 0.72})`);
+      g.addColorStop(1,    `rgba(255,188,18,0)`);
+    } else {
+      g.addColorStop(0,    `rgba(255,188,18,0)`);
+      g.addColorStop(0.13, `rgba(255,200,28,${a})`);
+      g.addColorStop(0.80, `rgba(255,138,8,${a * 0.58})`);
+      g.addColorStop(1,    `rgba(255,80,0,0)`);
+    }
+  } else {
+    if (inward) {
+      g.addColorStop(0,    `rgba(8,8,8,${a})`);
+      g.addColorStop(0.87, `rgba(8,8,8,${a * 0.68})`);
+      g.addColorStop(1,    `rgba(8,8,8,0)`);
+    } else {
+      g.addColorStop(0,    `rgba(8,8,8,0)`);
+      g.addColorStop(0.14, `rgba(8,8,8,${a})`);
+      g.addColorStop(0.84, `rgba(8,8,8,${a * 0.52})`);
+      g.addColorStop(1,    `rgba(8,8,8,0)`);
+    }
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(sX, sY);
+  ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, eX, eY);
+  ctx.strokeStyle = g;
+  ctx.lineWidth   = tr.thick;
+  ctx.lineCap     = 'round';
+  ctx.stroke();
+
+  /* secondary wisp */
+  const w3 = waveAt(0.33, ts + 600, inward, tr) * 0.52;
+  const w4 = waveAt(0.66, ts + 600, inward, tr) * 0.52;
+  const cp3x = lerp(sX, eX, 0.33) + px * w3,  cp3y = lerp(sY, eY, 0.33) + py * w3;
+  const cp4x = lerp(sX, eX, 0.66) + px * w4,  cp4y = lerp(sY, eY, 0.66) + py * w4;
+
+  const g2 = ctx.createLinearGradient(sX, sY, eX, eY);
+  if (isDark) {
+    g2.addColorStop(0,   `rgba(255,228,80,${a * 0.32})`);
+    g2.addColorStop(0.5, `rgba(255,228,80,${a * 0.18})`);
+    g2.addColorStop(1,   `rgba(255,228,80,0)`);
+  } else {
+    g2.addColorStop(0,   `rgba(22,22,22,${a * 0.28})`);
+    g2.addColorStop(0.5, `rgba(22,22,22,${a * 0.16})`);
+    g2.addColorStop(1,   `rgba(22,22,22,0)`);
+  }
+
+  ctx.beginPath();
+  ctx.moveTo(sX, sY);
+  ctx.bezierCurveTo(cp3x, cp3y, cp4x, cp4y, eX, eY);
+  ctx.strokeStyle = g2;
+  ctx.lineWidth   = tr.thick * 0.26;
+  ctx.lineCap     = 'round';
+  ctx.stroke();
+}
+
+/* ─── draw orb ───────────────────────────────────────────────────── */
+function drawOrb() {
+  if (isDark) {
+    /* outer glow ring */
+    const glow = ctx.createRadialGradient(cx, cy, orbR * 0.85, cx, cy, orbR * 2.6);
+    glow.addColorStop(0,   'rgba(255,190,30,0.13)');
+    glow.addColorStop(0.5, 'rgba(255,130,10,0.06)');
+    glow.addColorStop(1,   'rgba(255,70,0,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbR * 2.6, 0, Math.PI * 2);
+    ctx.fillStyle = glow;
+    ctx.fill();
+
+    /* yellow orb */
+    const og = ctx.createRadialGradient(
+      cx - orbR * 0.24, cy - orbR * 0.22, 0,
+      cx, cy, orbR
+    );
+    og.addColorStop(0,    '#FFFDE8');
+    og.addColorStop(0.28, '#FFE040');
+    og.addColorStop(0.62, '#FFB200');
+    og.addColorStop(0.86, '#FF8800');
+    og.addColorStop(1,    '#BB4800');
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbR, 0, Math.PI * 2);
+    ctx.fillStyle = og;
+    ctx.fill();
+
+    /* thin limb darkening */
+    const limb = ctx.createRadialGradient(cx, cy, orbR * 0.55, cx, cy, orbR);
+    limb.addColorStop(0,   'rgba(0,0,0,0)');
+    limb.addColorStop(0.72,'rgba(0,0,0,0)');
+    limb.addColorStop(1,   'rgba(0,0,0,0.28)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbR, 0, Math.PI * 2);
+    ctx.fillStyle = limb;
+    ctx.fill();
+
+  } else {
+    /* grey moon */
+    const og = ctx.createRadialGradient(
+      cx - orbR * 0.16, cy - orbR * 0.16, orbR * 0.02,
+      cx + orbR * 0.08, cy + orbR * 0.08, orbR
+    );
+    og.addColorStop(0,    '#F2F2F2');
+    og.addColorStop(0.32, '#D2D2D2');
+    og.addColorStop(0.68, '#ABABAB');
+    og.addColorStop(1,    '#707070');
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbR, 0, Math.PI * 2);
+    ctx.fillStyle = og;
+    ctx.fill();
+
+    /* craters */
+    const craters = [
+      { ox: -0.22, oy: -0.08, r: 0.17, d: 0.19 },
+      { ox:  0.28, oy:  0.22, r: 0.12, d: 0.16 },
+      { ox: -0.05, oy:  0.34, r: 0.10, d: 0.14 },
+      { ox:  0.14, oy: -0.32, r: 0.07, d: 0.13 },
+      { ox: -0.38, oy:  0.24, r: 0.06, d: 0.11 },
+      { ox:  0.06, oy:  0.08, r: 0.05, d: 0.09 },
+    ];
+
+    craters.forEach(c => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx + c.ox * orbR, cy + c.oy * orbR, c.r * orbR, 0, Math.PI * 2);
+      ctx.clip();
+
+      const cg = ctx.createRadialGradient(
+        cx + (c.ox - c.r * 0.28) * orbR, cy + (c.oy - c.r * 0.28) * orbR, 0,
+        cx + c.ox * orbR, cy + c.oy * orbR, c.r * orbR
+      );
+      cg.addColorStop(0,   `rgba(195,195,195,${c.d * 0.38})`);
+      cg.addColorStop(0.55,`rgba(72,72,72,${c.d})`);
+      cg.addColorStop(1,   `rgba(128,128,128,${c.d * 0.45})`);
+
+      ctx.fillStyle = cg;
+      ctx.fillRect(
+        cx + (c.ox - c.r) * orbR - 2, cy + (c.oy - c.r) * orbR - 2,
+        c.r * orbR * 2 + 4,           c.r * orbR * 2 + 4
+      );
+      ctx.restore();
+    });
+
+    /* edge shadow → spherical feel */
+    const sh = ctx.createRadialGradient(
+      cx + orbR * 0.14, cy + orbR * 0.14, orbR * 0.48,
+      cx, cy, orbR
+    );
+    sh.addColorStop(0,   'rgba(0,0,0,0)');
+    sh.addColorStop(0.68,'rgba(0,0,0,0)');
+    sh.addColorStop(1,   'rgba(0,0,0,0.26)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbR, 0, Math.PI * 2);
+    ctx.fillStyle = sh;
+    ctx.fill();
+  }
+}
+
+/* ─── animation loop ─────────────────────────────────────────────── */
+function frame(ts) {
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = isDark ? '#04040A' : '#FFFFFF';
+  ctx.fillRect(0, 0, W, H);
+
+  const inward = !isDark;            /* light → smoke flows IN; dark → flares flow OUT */
+  tendrils.forEach(tr => drawTendril(tr, ts, inward));
+  drawOrb();
+
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ─── toggle ─────────────────────────────────────────────────────── */
+btn.addEventListener('click', () => {
+  isDark = !isDark;
+  btn.classList.toggle('dark', isDark);
+  btn.textContent = isDark ? '☀' : '☽';
+  btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+});
+</script>
+</body>
+</html>
