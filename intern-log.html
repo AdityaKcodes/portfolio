@@ -178,6 +178,15 @@
 <h3>June 24, 2026</h3>
 <p><strong>Challenges:</strong>Thought was to handle AutoAnalysis block atlast, but no we decided to scale our pipelines to work okay with like 100+ documents. That is scary if it doesnt sound enough.</p>
     <p><strong>Learning:</strong>Limitation in our current codebase was main learnings like returning of each chunks from search pipeline was having its own DB query, also in a way faced with some Zombie Chunks- "they need to be not present but still downing work from shandows </p></div>
+<h3>June 29, 2026</h3>
+<p><strong>Challenges:</strong>After days off the works, we back with new learning or say new things to scale up current usecases in the codebase. With new whole UI components and interaction finally stable this was supposely next step.</p>
+    <p><strong>Learning:</strong>Two new documentations I got under my hood were google's open knowledge format and baidu' unlimited ocr. Why they felt worth, as being promising new tech with promises that were seeming to complete current miss-outs in the codebase. Unlimited Ocr were supposed to be main ocr as its slightly decrease use case of pdf to images and a better with R-SWA type attention work and a 3B model supposed to sideline Glm-ocr to fallback.</p></div>
+<h3>June 30, 2026</h3>
+<p><strong>Challenges:</strong>So after collecting about how's of new tech Unlimited OCR was off the ground as it needed vLLM or say docker-side ports to call it in usecase which was just out of my knowledge rightnow. And about open knowledge format, it was never tested, but just in theory that AI model understand sets of defined markdowns and yml much better that pointed chunk of context.</p>
+   <p><strong>Learning:</strong> After learning new technologies either out of bounds two incomplete to be in usecsse yet, we need to work on scalling throughout existing tech in the codebase. One of them was actually in main worflow search, when results were returned from elasticsearch for result _source_documentId there must finding of document data by this so we can include that in over res.source[]. So before it was each time database for each result which were casuing machine to throw error in say 200 results and now we call these in batch of 25 as docMap and seen no error thrown around yet upto 1000 hardcap.</p></div>
+<h3>June 1, 2026</h3>
+<p><strong>Challenges:</strong>As this beings few of last days being intern, today was supposily reporting day. So cleaning and finalising the codebase and then collecting raw data behind technicality and flows in current working Doctrace, testimony report was ready snd submitted to supervisor along with crosses and explaination around current workings.</p>
+    <p><strong>Learning:</strong>This whole intern period is a learning in itself starting of get known about what supposed to usecase of this project to all the new tech around the timeline till now is being used.This being my second fullstack project or say first project under supervised environment was a new experience.</p></div>
   <button onclick="downloadReport()">📥 Download Full Report</button>
 
   
